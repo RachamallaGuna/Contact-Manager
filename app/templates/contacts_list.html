@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <p class="eyebrow">{{ contacts|length }} on file</p>
+    <h1>Your Contacts</h1>
+  </div>
+  <a href="{{ url_for('contacts.create_contact') }}" class="btn btn-primary">+ New Contact</a>
+</div>
+
+<form method="GET" class="search-row">
+  <input type="text" name="q" value="{{ query }}" class="search-input" placeholder="Search by name&hellip;">
+</form>
+
+{% if contacts %}
+<div class="card-grid">
+  {% for c in contacts %}
+  <div class="index-card">
+    <div class="card-tab">{{ c.name[0]|upper if c.name else '?' }}</div>
+    {% if c.profile_image_url %}
+      <img src="{{ c.profile_image_url }}" class="card-photo" alt="{{ c.name }}">
+    {% endif %}
+    <p class="card-name">{{ c.name }}</p>
+    {% if c.email %}<p class="card-meta">{{ c.email }}</p>{% endif %}
+    {% if c.phone %}<p class="card-meta">{{ c.phone }}</p>{% endif %}
+    <div class="card-actions">
+      <a href="{{ url_for('contacts.edit_contact', contact_id=c.id) }}" class="btn btn-outline" style="padding:6px 14px;font-size:0.82rem;">Edit</a>
+      <form method="POST" action="{{ url_for('contacts.delete_contact', contact_id=c.id) }}" onsubmit="return confirm('Delete this contact?');">
+        <button class="btn-danger-text" type="submit">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  {% if query %}
+    No contacts match &ldquo;{{ query }}&rdquo;.
+  {% else %}
+    Nothing filed yet. Add your first contact to start the catalog.
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

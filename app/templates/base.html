@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Contact Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  {% if current_user.is_authenticated %}
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="{{ url_for('contacts.list_contacts') }}" class="wordmark">Contact<span>.</span>Manager</a>
+      <div class="topbar-right">
+        <span class="email-full">{{ current_user.email }}</span>
+        <a href="{{ url_for('auth.logout') }}" class="punch-btn">Log out</a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="wrap">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ 'flash-error' if category == 'error' else 'flash-success' }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

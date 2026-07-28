@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel panel-center">
+  <p class="eyebrow">Contact Manager</p>
+  <h1>Create your account</h1>
+  <p class="panel-foot" style="margin-top:6px;margin-bottom:20px;">Start your own contact catalog.</p>
+  <form method="POST">
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required minlength="6">
+      <p class="field-hint">At least 6 characters.</p>
+    </div>
+    <button class="btn btn-primary btn-block" type="submit">Create account</button>
+  </form>
+  <p class="panel-foot">Already have one? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+</div>
+{% endblock %}
